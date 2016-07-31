@@ -1,0 +1,979 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="grep," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="一、Linux文本处理三剑客
+Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep）、sed、awk。今天主要给大家介绍一下三剑客中的第一剑：grep伐木累。
+二、grep是什么？grep 全称（Globally search a Regular Expression and Print）是一个文本搜索工具，基于“pattern”（这里指的是过滤模式，多指正则表达式）对给">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux三剑客之grep">
+<meta property="og:url" content="http://yoursite.com/2016/07/28/Linux三剑客之grep/index.html">
+<meta property="og:site_name" content="Antony's Blog">
+<meta property="og:description" content="一、Linux文本处理三剑客
+Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep）、sed、awk。今天主要给大家介绍一下三剑客中的第一剑：grep伐木累。
+二、grep是什么？grep 全称（Globally search a Regular Expression and Print）是一个文本搜索工具，基于“pattern”（这里指的是过滤模式，多指正则表达式）对给">
+<meta property="og:image" content="http://zantony.top/uploads/grep.png">
+<meta property="og:updated_time" content="2016-07-29T02:51:35.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux三剑客之grep">
+<meta name="twitter:description" content="一、Linux文本处理三剑客
+Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep）、sed、awk。今天主要给大家介绍一下三剑客中的第一剑：grep伐木累。
+二、grep是什么？grep 全称（Globally search a Regular Expression and Print）是一个文本搜索工具，基于“pattern”（这里指的是过滤模式，多指正则表达式）对给">
+<meta name="twitter:image" content="http://zantony.top/uploads/grep.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/07/28/Linux三剑客之grep/"/>
+
+  <title> Linux三剑客之grep | Antony's Blog </title>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery-lazyload/1.9.5/jquery.lazyload.min.js"></script>
+    <script type="text/javascript">
+      jQuery(function() {          
+          jQuery("img").lazyload({
+            placeholder:"http://www.arao.me/loading.gif",
+              effect:"fadeIn"
+            });
+          });
+    </script>
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?cb574d5553440fc996fc98610ee2a9bd";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Antony's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-categories " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux三剑客之grep
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-28T17:11:27+08:00" content="2016-07-28">
+              2016-07-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux三剑客/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux三剑客</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/28/Linux三剑客之grep/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/Linux三剑客之grep/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、Linux文本处理三剑客"><a href="#一、Linux文本处理三剑客" class="headerlink" title="一、Linux文本处理三剑客"></a>一、Linux文本处理三剑客</h3><blockquote>
+<p>Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep）、sed、awk。今天主要给大家介绍一下三剑客中的第一剑：grep伐木累。</p>
+<h3 id="二、grep是什么？"><a href="#二、grep是什么？" class="headerlink" title="二、grep是什么？"></a>二、grep是什么？</h3><p><code>grep</code> 全称（Globally search a Regular Expression and Print）是一个文本搜索工具，基于“pattern”（这里指的是过滤模式，多指正则表达式）对给定的文本进行搜索。</p>
+<p>grep家族：<br>        1.grep：支持使用基本正则表达式；<br>        2.egrep：支持使用扩展正则表达式；<br>        3.fgrep：不支持使用正则表达式；</p>
+<pre><code># 虽然正则表达式有强大的引擎，但是在单独过滤字符上面 fgrep要起到很大作用，这个作用在日志文件小的时候可能体现不出来，但是当文件达到几亿行就能体现出fgrep的搜索效率。（对大型web网站一天的日志量到几亿行是很轻松的，甚至更多）
+</code></pre></blockquote>
+<h3 id="三、grep与egrep的主要参数"><a href="#三、grep与egrep的主要参数" class="headerlink" title="三、grep与egrep的主要参数"></a>三、grep与egrep的主要参数</h3><p>在介绍正则表达式前，先介绍一下grep的常用参数，这里所有涉及正则表达式meta字符都会在后续中展开！<br>常用选项：<br>–color=auto：对匹配到的文本着色后高亮显示；（默认centos7对grep、egrep、fgrep已经设置参数，此处不做过多例子）</p>
+<h4 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">alias cp=&apos;cp -i&apos;</div><div class="line">alias egrep=&apos;egrep --color=auto&apos;</div><div class="line">alias fgrep=&apos;fgrep --color=auto&apos;</div><div class="line">alias grep=&apos;grep --color=auto&apos;</div><div class="line">alias l.=&apos;ls -d .* --color=auto&apos;</div><div class="line">alias ll=&apos;ls -l --color=auto&apos;</div><div class="line">alias ls=&apos;ls --color=auto&apos;</div><div class="line">alias mv=&apos;mv -i&apos;</div><div class="line">alias rm=&apos;rm -i&apos;</div><div class="line">alias which=&apos;alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde&apos;</div></pre></td></tr></table></figure>
+<h4 id="i：忽略字符大小写；"><a href="#i：忽略字符大小写；" class="headerlink" title="-i：忽略字符大小写；"></a>-i：忽略字符大小写；</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># cat test</div><div class="line">Hello World</div><div class="line">How are you?</div><div class="line">Mageedu is very good!</div><div class="line"># grep &quot;^H&quot; test</div><div class="line">Hello World</div><div class="line">How are you?</div><div class="line"># grep &quot;^h&quot; test</div><div class="line"># grep -i &quot;^h&quot; test</div><div class="line">Hello World</div><div class="line">How are you?</div></pre></td></tr></table></figure>
+<h4 id="o：仅显示匹配-到的文本自身；"><a href="#o：仅显示匹配-到的文本自身；" class="headerlink" title="-o：仅显示匹配 到的文本自身；"></a>-o：仅显示匹配 到的文本自身；</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># grep &quot;good&quot; test</div><div class="line">Mageedu is very good!</div><div class="line">[root@localhost ~]# grep -o &quot;good&quot; test</div><div class="line">good</div><div class="line">-v，反向匹配；</div><div class="line"># cat test</div><div class="line">Hello World</div><div class="line">How are you?</div><div class="line">Mageedu is very good!</div><div class="line">[root@localhost ~]# grep  &quot;M.*[[:punct:]]$&quot; test</div><div class="line">Mageedu is very good!</div><div class="line">[root@localhost ~]# grep -v &quot;M.*[[:punct:]]$&quot; test</div><div class="line">Hello World</div><div class="line">How are you?</div></pre></td></tr></table></figure>
+<h4 id="q-静默模式，不输出任何信息；（省得把输出放到-dev-null，节省系统资源）"><a href="#q-静默模式，不输出任何信息；（省得把输出放到-dev-null，节省系统资源）" class="headerlink" title="-q, 静默模式，不输出任何信息；（省得把输出放到/dev/null，节省系统资源）"></a>-q, 静默模式，不输出任何信息；（省得把输出放到/dev/null，节省系统资源）</h4><p>此处只是为了得到一个返回状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># grep -q &quot;good&quot; test</div><div class="line"># echo $?</div><div class="line">0</div><div class="line"># grep -q &quot;goodddddddd&quot; test</div><div class="line"># echo $?</div><div class="line">1</div></pre></td></tr></table></figure></p>
+<h4 id="P-支持使用pcre正则表达式（per语言）；"><a href="#P-支持使用pcre正则表达式（per语言）；" class="headerlink" title="-P, 支持使用pcre正则表达式（per语言）；"></a>-P, 支持使用pcre正则表达式（per语言）；</h4><h4 id="e-PATTERN可以同时匹配多个模式"><a href="#e-PATTERN可以同时匹配多个模式" class="headerlink" title="-e PATTERN可以同时匹配多个模式"></a>-e PATTERN可以同时匹配多个模式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># cat test</div><div class="line">Hello World</div><div class="line">How are you?</div><div class="line">Mageedu is very good!</div><div class="line">[root@localhost ~]# grep -e &quot;good&quot; -e &quot;you&quot; test</div><div class="line">How are you?</div><div class="line">Mageedu is very good!</div></pre></td></tr></table></figure>
+<h4 id="f-FILEFILE为每行包含了一个pattern的文本文件，即grep-script；（读取文件中的每一行pattern来对指定FILE进行过滤）"><a href="#f-FILEFILE为每行包含了一个pattern的文本文件，即grep-script；（读取文件中的每一行pattern来对指定FILE进行过滤）" class="headerlink" title="-f FILEFILE为每行包含了一个pattern的文本文件，即grep script；（读取文件中的每一行pattern来对指定FILE进行过滤）"></a>-f FILEFILE为每行包含了一个pattern的文本文件，即grep script；（读取文件中的每一行pattern来对指定FILE进行过滤）</h4><p>-f与-e类似，都是匹配多个模式，只是-f选项读取的是文本文件中的模式，逐行匹配。</p>
+<h4 id="A-NUM-显示匹配出的后-行"><a href="#A-NUM-显示匹配出的后-行" class="headerlink" title="-A NUM 显示匹配出的后#行"></a>-A NUM 显示匹配出的后#行</h4><h4 id="B-NUM-显示匹配出的前-行"><a href="#B-NUM-显示匹配出的前-行" class="headerlink" title="-B NUM 显示匹配出的前#行"></a>-B NUM 显示匹配出的前#行</h4><h4 id="C-NUM显示匹配出的前后-行"><a href="#C-NUM显示匹配出的前后-行" class="headerlink" title="-C NUM显示匹配出的前后#行"></a>-C NUM显示匹配出的前后#行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"># cat test</div><div class="line">Hello World</div><div class="line">How are you?</div><div class="line">Mageedu is very good!</div><div class="line"># grep -A 1 &quot;you&quot; test</div><div class="line">How are you?</div><div class="line">Mageedu is very good!</div><div class="line"># grep -B 1 &quot;you&quot; test</div><div class="line">Hello World</div><div class="line">How are you?</div><div class="line"># grep -C 1 &quot;you&quot; test</div><div class="line">Hello World</div><div class="line">How are you?</div><div class="line">Mageedu is very good!</div></pre></td></tr></table></figure>
+<h4 id="其他参数"><a href="#其他参数" class="headerlink" title="其他参数"></a>其他参数</h4><p>下面参数针对grep命令而言：<br>-E：支持扩展的正则表达式相当与egrep；<br>-F, –fixed-strings：支持使用固定字符串，不支持正则表达式，相当于fgrep；</p>
+<h3 id="四、grep使用及正则表达式"><a href="#四、grep使用及正则表达式" class="headerlink" title="四、grep使用及正则表达式"></a>四、grep使用及正则表达式</h3><h4 id="1-正则表达式的组成"><a href="#1-正则表达式的组成" class="headerlink" title="1.正则表达式的组成"></a>1.正则表达式的组成</h4><p>a、一般字符：没有特殊意义的字符<br>b、特殊字符（meta字符）：元字符，有在正则表达式中有特殊意义</p>
+<h4 id="2-下面讲下正则表达式中常见的meta字符-元字符"><a href="#2-下面讲下正则表达式中常见的meta字符-元字符" class="headerlink" title="2.下面讲下正则表达式中常见的meta字符(元字符)"></a>2.下面讲下正则表达式中常见的meta字符(元字符)</h4><h5 id="a、基本正则表达式meta字符"><a href="#a、基本正则表达式meta字符" class="headerlink" title="a、基本正则表达式meta字符"></a>a、基本正则表达式meta字符</h5><h5 id="（1）字符匹配"><a href="#（1）字符匹配" class="headerlink" title="（1）字符匹配"></a>（1）字符匹配</h5><h6 id="“-”-匹配任意单个字符；"><a href="#“-”-匹配任意单个字符；" class="headerlink" title="“.”:匹配任意单个字符；"></a>“.”:匹配任意单个字符；</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># grep r..t /etc/passwd</div><div class="line">root:x:0:0:root:/root:/bin/bash</div><div class="line">operator:x:11:0:operator:/root:/sbin/nologin</div><div class="line">ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin</div></pre></td></tr></table></figure>
+<h6 id="匹配方位内的任意单个数字；"><a href="#匹配方位内的任意单个数字；" class="headerlink" title="[ ]:匹配方位内的任意单个数字；"></a>[ ]:匹配方位内的任意单个数字；</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># fdisk -l |grep &quot;[sh]d[a-z]\&gt;&quot;</div><div class="line">Disk /dev/sda: 128.8 GB, 128849018880 bytes, 251658240 sectors</div></pre></td></tr></table></figure>
+<h6 id="匹配范围外的任意单个数字：托字符指取反之意-下面会讲到"><a href="#匹配范围外的任意单个数字：托字符指取反之意-下面会讲到" class="headerlink" title="[^]匹配范围外的任意单个数字：托字符指取反之意,下面会讲到"></a>[^]匹配范围外的任意单个数字：托字符指取反之意,下面会讲到</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># cat test</div><div class="line">Hello World</div><div class="line">how are you?</div><div class="line">Mageedu is very good!</div></pre></td></tr></table></figure>
+<h6 id="upper-：所有大写字母"><a href="#upper-：所有大写字母" class="headerlink" title="[[:upper:]]：所有大写字母"></a>[[:upper:]]：所有大写字母</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># grep &quot;^[^[:upper:]]&quot; test</div><div class="line">how are you?</div></pre></td></tr></table></figure>
+<h6 id="其他表示数字的元字符"><a href="#其他表示数字的元字符" class="headerlink" title="其他表示数字的元字符"></a>其他表示数字的元字符</h6><p>[[:upper:]]：所有大写字母；<br>[[:lower:]]：所有小写字母；<br>[[:digit:]]：所有的数字；<br>[[:alpha:]]：所有字母；<br>[[:alnum:]]：所有字母和数字；<br>[[:space:]]：空白字符；<br>[[:punct:]]：标点符号；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># cat test</div><div class="line">Hello World</div><div class="line">how are you?</div><div class="line">Mageedu is very good!</div><div class="line"># grep &quot;[[:upper:]][[:lower:]].*[[:space:]]&quot; test</div><div class="line">Hello World</div><div class="line">Mageedu is very good!</div></pre></td></tr></table></figure></p>
+<h6 id="（2）匹配次数"><a href="#（2）匹配次数" class="headerlink" title="（2）匹配次数"></a>（2）匹配次数</h6><p>主要用于限制字符要出现的次数，一般放在出现的次数的字符后面。</p>
+<h6 id="：匹配前面的字符任意次（0-1或多次）；"><a href="#：匹配前面的字符任意次（0-1或多次）；" class="headerlink" title="*：匹配前面的字符任意次（0,1或多次）；"></a><code>*</code>：匹配前面的字符任意次（0,1或多次）；</h6><p>此处*表示前面的字符可以出现也可以不出现，所以将文件中所有的行都匹配出来了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># grep &quot;a*&quot; test1</div><div class="line">ab</div><div class="line">aaaabcd</div><div class="line">bcd</div><div class="line">cd</div><div class="line">axxxxxxxd</div></pre></td></tr></table></figure></p>
+<h6 id="：任意长度的任意字符（-为匹配单个字符，-为任意次）"><a href="#：任意长度的任意字符（-为匹配单个字符，-为任意次）" class="headerlink" title=".*：任意长度的任意字符（.为匹配单个字符，*为任意次）"></a><code>.*</code>：任意长度的任意字符（.为匹配单个字符，*为任意次）</h6><p>此处.表示匹配任意单个字符，所以在过滤时，文件中的a必须出现至少一次<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># grep &quot;a.*&quot; test1</div><div class="line">ab</div><div class="line">aaaabcd</div><div class="line">axxxxxxxd</div><div class="line">cccabbbd</div></pre></td></tr></table></figure></p>
+<h6 id="：匹配前面的字符至少1次；"><a href="#：匹配前面的字符至少1次；" class="headerlink" title="\+：匹配前面的字符至少1次；"></a><code>\+</code>：匹配前面的字符至少1次；</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># grep &quot;a\+&quot; test1</div><div class="line">ab</div><div class="line">aaaabcd</div><div class="line">axxxxxxxd</div><div class="line">cccabbbd</div></pre></td></tr></table></figure>
+<h6 id="：匹配前面的0次或1次，即前面的字符可有可无；"><a href="#：匹配前面的0次或1次，即前面的字符可有可无；" class="headerlink" title="\?：匹配前面的0次或1次，即前面的字符可有可无；"></a>\?：匹配前面的0次或1次，即前面的字符可有可无；</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># grep &quot;a\?&quot; test1</div><div class="line">ab</div><div class="line">aaaabcd</div><div class="line">bcd</div><div class="line">cd</div><div class="line">axxxxxxxd</div><div class="line">cccabbbd</div></pre></td></tr></table></figure>
+<h6 id="m-：固定匹配前面的字符出现m次，m为非负数；"><a href="#m-：固定匹配前面的字符出现m次，m为非负数；" class="headerlink" title="{\m}：固定匹配前面的字符出现m次，m为非负数；"></a>{\m}：固定匹配前面的字符出现m次，m为非负数；</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># grep &quot;a\&#123;2\&#125;&quot; test1</div><div class="line">aaaabcd</div><div class="line">aaxxxxxxxd</div><div class="line">cccaabbbd</div></pre></td></tr></table></figure>
+<h6 id="m-n-至少出现m次，至多出现n次；"><a href="#m-n-至少出现m次，至多出现n次；" class="headerlink" title="{m,n}:至少出现m次，至多出现n次；"></a>{m,n}:至少出现m次，至多出现n次；</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># grep &quot;a\&#123;1,3\&#125;&quot; test1</div><div class="line">ab</div><div class="line">aaaabcd</div><div class="line">aaxxxxxxxd</div><div class="line">cccaabbbd</div><div class="line">    \&#123;0,n\&#125;:至多n次；</div><div class="line">    \&#123;m,\&#125;：至少m次；</div></pre></td></tr></table></figure>
+<h5 id="（3）位置锚定"><a href="#（3）位置锚定" class="headerlink" title="（3）位置锚定"></a>（3）位置锚定</h5><p>限制使用模式搜索文本，限制模式所匹配到的文本只能出现于目标文本的哪个位置；</p>
+<p><code>^</code>：行首锚定；用于模式的最左侧，^PATTERN<br><code>$</code>：行尾锚定；用于模式的最右侧，PATTERN$<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># ps -ef|grep &quot;^root.*bash$&quot;</div><div class="line">root       1143   1141  0 09:20 pts/0    00:00:00 -bash</div><div class="line">^PATTERN$：要让PATTERN完全匹配一整行；</div><div class="line"># grep &quot;^hello&quot; /tmp/fstab</div><div class="line">hello</div><div class="line">hello world</div><div class="line"># grep &quot;^hello$&quot; /tmp/fstab</div><div class="line">hello</div></pre></td></tr></table></figure></p>
+<h6 id="：空行；"><a href="#：空行；" class="headerlink" title="^$：空行；"></a>^$：空行；</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">常用语在文档中过滤多余的空行，-v指取反之意</div><div class="line"># cat test</div><div class="line">Hello World</div><div class="line"></div><div class="line">how are you?</div><div class="line"></div><div class="line">Mageedu is very good!</div><div class="line"></div><div class="line"># grep -v &quot;^$&quot; test</div><div class="line">Hello World</div><div class="line">how are you?</div><div class="line">Mageedu is very good!</div></pre></td></tr></table></figure>
+<h6 id="space-：用来在-匹配不到的时候使用；"><a href="#space-：用来在-匹配不到的时候使用；" class="headerlink" title="^[[:space:]]*$：用来在^$匹配不到的时候使用；"></a>^[[:space:]]*$：用来在^$匹配不到的时候使用；</h6><p>此处指有的时候空行中包含空白字符，比如空格、制表符等，用^$就过滤不出来了，此处可以使用此命令过滤<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># grep -v &quot;^$&quot; test</div><div class="line">Hello World</div><div class="line">  </div><div class="line">      </div><div class="line">how are you?</div><div class="line">       </div><div class="line">       </div><div class="line">Mageedu is very good!</div><div class="line"># grep -v &quot;^[[:space:]]*$&quot; test</div><div class="line">Hello World</div><div class="line">how are you?</div><div class="line">Mageedu is very good!</div></pre></td></tr></table></figure></p>
+<h6 id="lt-或-b：词首锚定，用于单词模式的左侧，格式为-lt-PATTERN-bPATTERN"><a href="#lt-或-b：词首锚定，用于单词模式的左侧，格式为-lt-PATTERN-bPATTERN" class="headerlink" title="\&lt;或\b：词首锚定，用于单词模式的左侧，格式为\&lt;PATTERN, \bPATTERN"></a>\&lt;或\b：词首锚定，用于单词模式的左侧，格式为\&lt;PATTERN, \bPATTERN</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># fdisk -l|grep &quot;/dev/[sh]d[a-z]&quot;</div><div class="line">Disk /dev/sda: 128.8 GB, 128849018880 bytes, 251658240 sectors</div><div class="line">/dev/sda1   *        2048     1026047      512000   83  Linux</div><div class="line">/dev/sda2         1026048    84912127    41943040   83  Linux</div><div class="line">/dev/sda3        84912128   126855167    20971520   83  Linux</div><div class="line">/dev/sda4       126855168   251658239    62401536    5  Extended</div><div class="line">/dev/sda5       126859264   131055615     2098176   82  Linux swap / Solaris</div><div class="line"># fdisk -l|grep &quot;/dev/[sh]d[a-z]\&gt;&quot;</div><div class="line">Disk /dev/sda: 128.8 GB, 128849018880 bytes, 251658240 sectors</div></pre></td></tr></table></figure>
+<h6 id="或-b：词尾锚定，用于单词模式的右侧，格式为PATTERN-PATTERN-b"><a href="#或-b：词尾锚定，用于单词模式的右侧，格式为PATTERN-PATTERN-b" class="headerlink" title=">或\b：词尾锚定，用于单词模式的右侧，格式为PATTERN>, PATTERN\b"></a>>或\b：词尾锚定，用于单词模式的右侧，格式为PATTERN>, PATTERN\b</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># grep &quot;\&lt;root&quot; /etc/passwd</div><div class="line">root:x:0:0:root:/root:/bin/bash</div><div class="line">operator:x:11:0:operator:/root:/sbin/nologin</div></pre></td></tr></table></figure>
+<h6 id="：单词锚定"><a href="#：单词锚定" class="headerlink" title="\：单词锚定"></a>\<pattern\>：单词锚定</pattern\></h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">单词：由非特殊字符组成的连续字符（字符串）都称为单词；</div><div class="line"># cat /tmp/ifconfig.test </div><div class="line">/usr/sbin/ifconfig</div><div class="line">/usr/sbin/ifconfig2</div><div class="line">/usr/sbin/ifconfig3</div><div class="line"># grep &quot;ifconfig&quot; /tmp/ifconfig.test </div><div class="line">/usr/sbin/ifconfig</div><div class="line">/usr/sbin/ifconfig2</div><div class="line">/usr/sbin/ifconfig3</div><div class="line"># grep &quot;\&lt;ifconfig\&gt;&quot; /tmp/ifconfig.test </div><div class="line">/usr/sbin/ifconfig</div></pre></td></tr></table></figure>
+<h5 id="（4）分组与引用"><a href="#（4）分组与引用" class="headerlink" title="（4）分组与引用"></a>（4）分组与引用</h5><p>(PATTERN):将次PATTERN匹配到的字符当做一个整体处理；分组括号中的模式匹配到的字符会被正则表达式引擎自动纪录于变量中，这些变量分别是\1，\2，\3<br>    \1：第一组括号中的pattern匹配到的字符串；<br>    \2：第二组括号中的pattern匹配到的字符串；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># grep &quot;^\([[:alnum:]]\+\)\&gt;.*\1$&quot; /etc/passwd</div><div class="line">sync:x:5:0:sync:/sbin:/bin/sync</div><div class="line">shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</div><div class="line">halt:x:7:0:halt:/sbin:/sbin/halt</div><div class="line">nologin:x:5010:5010::/home/nologin:/sbin/nologin</div></pre></td></tr></table></figure></p>
+<h5 id="b、扩展正则表达式meta字符"><a href="#b、扩展正则表达式meta字符" class="headerlink" title="b、扩展正则表达式meta字符"></a>b、扩展正则表达式meta字符</h5><p>注意：与基本正则表达式不同，扩展表达式在一些参数上可以不使用转意符（\），但是在使用上没有什么区别，这里我举几个例子，其他基本与基本正则表达式使用相同！      </p>
+<h5 id="此处表示过滤1-255的所有整数"><a href="#此处表示过滤1-255的所有整数" class="headerlink" title="此处表示过滤1-255的所有整数"></a>此处表示过滤1-255的所有整数</h5><p><img src="http://zantony.top/uploads/grep.png" alt="enter image description here"></p>
+<h5 id="此处表示取出绝对路径中的基名"><a href="#此处表示取出绝对路径中的基名" class="headerlink" title="此处表示取出绝对路径中的基名"></a>此处表示取出绝对路径中的基名</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># echo `which pwd`|egrep &quot;[^/]+/?$&quot; </div><div class="line">/usr/bin/pwd</div><div class="line"># echo `which pwd`|egrep &quot;[^/]+/?$&quot; -o</div><div class="line">pwd</div></pre></td></tr></table></figure>
+<h5 id="此处表示查看root、mageedu、centos用户的详细信息"><a href="#此处表示查看root、mageedu、centos用户的详细信息" class="headerlink" title="此处表示查看root、mageedu、centos用户的详细信息"></a>此处表示查看root、mageedu、centos用户的详细信息</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># egrep &quot;^(root|mageedu|centos)\&gt;&quot; /etc/passwd</div><div class="line">root:x:0:0:root:/root:/bin/bash</div><div class="line">mageedu:x:1000:1000:mageedu:/home/mageedu:/bin/bash</div><div class="line">centos:x:5008:5008::/home/centos:/bin/bash</div></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>（1）字符匹配<br>.:匹配任意单个字符；<br><code>[ ]</code>:匹配方位内的任意单个数字；<br><code>[^]</code>匹配范围外的任意单个数字；<br><code>[[:upper:]]</code>：所有大写字母；<br><code>[[:lower:]]</code>：所有小写字母；<br><code>[[:digit:]]</code>：所有的数字；<br><code>[[:alpha:]]</code>：所有字母；<br><code>[[:alnum:]]</code>：所有字母和数字；<br><code>[[:space:]]</code>：空白字符；<br><code>[[:punct:]]</code>：标点符号；<br>（2）匹配次数<br>主要用于限制字符要出现的次数，一般放在出现的次数的字符后面。<br><code>*</code>：匹配前面的字符任意次（0,1或多次）；<br><code>.*</code>：任意长度的任意字符（.为匹配单个字符，<em>为任意次）<br><code>+</code>：匹配前面的字符至少1次；<br><code>?</code>：匹配前面的0次或1次，即前面的字符可有可无；<br><code>{m}</code>：固定匹配前面的字符出现m次，m为非负数；<br><code>{m,n}</code>:至少出现m次，至多出现n次；<br><code>{0,n}</code>:至多n次；<br><code>{m,}</code>：至少m次；<br>（3）位置锚定<br>扩展正则表达式中：单词锚定符（\&lt;,>）不能去除转意符()<br><code>^</code>：行首锚定；用于模式的最左侧，^PATTERN<br><code>$</code>：行尾锚定；用于模式的最右侧，PATTERN$<br><code>^PATTERN$</code>：要让PATTERN完全匹配一整行；<br><code>^$</code>：空行；<br>`^[[:space:]]</em>$<code>: 用来在^$匹配不到的时候使用；</code>\&lt;或\b<code>：词首锚定，用于单词模式的左侧，格式为\&lt;PATTERN, \bPATTERN</code>>或\b<code>：词尾锚定，用于单词模式的右侧，格式为PATTERN\&gt;, PATTERN\b</code>\<pattern\><code>：单词锚定
+单词：由非特殊字符组成的连续字符（字符串）都称为单词；
+（4）分组与引用
+(PATTERN):将次PATTERN匹配到的字符当做一个整体处理；分组括号中的模式匹配到的字符会被正则表达式引擎自动纪录于变量中，这些变量分别是\1，\2，\3</code>\1<code>：第一组括号中的pattern匹配到的字符串；</code> \2<code>：第二组括号中的pattern匹配到的字符串
+这里的\1 \2不能省略转意符；
+（5）或者</code> a|b<code>：a或者b</code>C|cat<code>：表示C或cat</code>(C|c)at`：表示Cat或cat<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># fdisk -l|grep -E &quot;/dev/(s|h)d[a-z]\&gt;&quot;</div><div class="line">Disk /dev/sda: 128.8 GB, 128849018880 bytes, 251658240 sectors</div></pre></td></tr></table></figure></pattern\></p>
+<blockquote>
+<p>作者：Antony WX&amp;QQ：1257465991<br>Q/A：如有问题请慷慨提出</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat.png" alt="Antony WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/zhifubao.jpg" alt="Antony Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/grep/" rel="tag">#grep</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/28/老马日记-oneday/" rel="next" title="马不羁-oneday">
+                <i class="fa fa-chevron-left"></i> 马不羁-oneday
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/28/Linux用户、用户组及权限管理/" rel="prev" title="Linux用户、用户组及权限管理">
+                Linux用户、用户组及权限管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/28/Linux三剑客之grep/"
+           data-title="Linux三剑客之grep" data-url="http://yoursite.com/2016/07/28/Linux三剑客之grep/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Antony" />
+          <p class="site-author-name" itemprop="name">Antony</p>
+          <p class="site-description motion-element" itemprop="description">If I have been able to see further, it was only because I stood on the shoulders of giants. </p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZAntony/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhao-liang-86-49" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://xinzong.blog.51cto.com/" target="_blank" title="51cto">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  51cto
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5040142622" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://xinzong.blog.51cto.com/" title="巨人" target="_blank">巨人</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、Linux文本处理三剑客"><span class="nav-number">1.</span> <span class="nav-text">一、Linux文本处理三剑客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、grep是什么？"><span class="nav-number">2.</span> <span class="nav-text">二、grep是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、grep与egrep的主要参数"><span class="nav-number">3.</span> <span class="nav-text">三、grep与egrep的主要参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#alias"><span class="nav-number">3.1.</span> <span class="nav-text">alias</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#i：忽略字符大小写；"><span class="nav-number">3.2.</span> <span class="nav-text">-i：忽略字符大小写；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#o：仅显示匹配-到的文本自身；"><span class="nav-number">3.3.</span> <span class="nav-text">-o：仅显示匹配 到的文本自身；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#q-静默模式，不输出任何信息；（省得把输出放到-dev-null，节省系统资源）"><span class="nav-number">3.4.</span> <span class="nav-text">-q, 静默模式，不输出任何信息；（省得把输出放到/dev/null，节省系统资源）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#P-支持使用pcre正则表达式（per语言）；"><span class="nav-number">3.5.</span> <span class="nav-text">-P, 支持使用pcre正则表达式（per语言）；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#e-PATTERN可以同时匹配多个模式"><span class="nav-number">3.6.</span> <span class="nav-text">-e PATTERN可以同时匹配多个模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#f-FILEFILE为每行包含了一个pattern的文本文件，即grep-script；（读取文件中的每一行pattern来对指定FILE进行过滤）"><span class="nav-number">3.7.</span> <span class="nav-text">-f FILEFILE为每行包含了一个pattern的文本文件，即grep script；（读取文件中的每一行pattern来对指定FILE进行过滤）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A-NUM-显示匹配出的后-行"><span class="nav-number">3.8.</span> <span class="nav-text">-A NUM 显示匹配出的后#行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-NUM-显示匹配出的前-行"><span class="nav-number">3.9.</span> <span class="nav-text">-B NUM 显示匹配出的前#行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-NUM显示匹配出的前后-行"><span class="nav-number">3.10.</span> <span class="nav-text">-C NUM显示匹配出的前后#行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他参数"><span class="nav-number">3.11.</span> <span class="nav-text">其他参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、grep使用及正则表达式"><span class="nav-number">4.</span> <span class="nav-text">四、grep使用及正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-正则表达式的组成"><span class="nav-number">4.1.</span> <span class="nav-text">1.正则表达式的组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-下面讲下正则表达式中常见的meta字符-元字符"><span class="nav-number">4.2.</span> <span class="nav-text">2.下面讲下正则表达式中常见的meta字符(元字符)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a、基本正则表达式meta字符"><span class="nav-number">4.2.1.</span> <span class="nav-text">a、基本正则表达式meta字符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）字符匹配"><span class="nav-number">4.2.2.</span> <span class="nav-text">（1）字符匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#“-”-匹配任意单个字符；"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">“.”:匹配任意单个字符；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#匹配方位内的任意单个数字；"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">[ ]:匹配方位内的任意单个数字；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#匹配范围外的任意单个数字：托字符指取反之意-下面会讲到"><span class="nav-number">4.2.2.3.</span> <span class="nav-text">[^]匹配范围外的任意单个数字：托字符指取反之意,下面会讲到</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#upper-：所有大写字母"><span class="nav-number">4.2.2.4.</span> <span class="nav-text">[[:upper:]]：所有大写字母</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#其他表示数字的元字符"><span class="nav-number">4.2.2.5.</span> <span class="nav-text">其他表示数字的元字符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#（2）匹配次数"><span class="nav-number">4.2.2.6.</span> <span class="nav-text">（2）匹配次数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#：匹配前面的字符任意次（0-1或多次）；"><span class="nav-number">4.2.2.7.</span> <span class="nav-text">*：匹配前面的字符任意次（0,1或多次）；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#：任意长度的任意字符（-为匹配单个字符，-为任意次）"><span class="nav-number">4.2.2.8.</span> <span class="nav-text">.*：任意长度的任意字符（.为匹配单个字符，*为任意次）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#：匹配前面的字符至少1次；"><span class="nav-number">4.2.2.9.</span> <span class="nav-text">\+：匹配前面的字符至少1次；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#：匹配前面的0次或1次，即前面的字符可有可无；"><span class="nav-number">4.2.2.10.</span> <span class="nav-text">\?：匹配前面的0次或1次，即前面的字符可有可无；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#m-：固定匹配前面的字符出现m次，m为非负数；"><span class="nav-number">4.2.2.11.</span> <span class="nav-text">{\m}：固定匹配前面的字符出现m次，m为非负数；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#m-n-至少出现m次，至多出现n次；"><span class="nav-number">4.2.2.12.</span> <span class="nav-text">{m,n}:至少出现m次，至多出现n次；</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）位置锚定"><span class="nav-number">4.2.3.</span> <span class="nav-text">（3）位置锚定</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#：空行；"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">^$：空行；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#space-：用来在-匹配不到的时候使用；"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">^[[:space:]]*$：用来在^$匹配不到的时候使用；</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#lt-或-b：词首锚定，用于单词模式的左侧，格式为-lt-PATTERN-bPATTERN"><span class="nav-number">4.2.3.3.</span> <span class="nav-text">\<或\b：词首锚定，用于单词模式的左侧，格式为\<PATTERN, \bPATTERN</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#或-b：词尾锚定，用于单词模式的右侧，格式为PATTERN-PATTERN-b"><span class="nav-number">4.2.3.4.</span> <span class="nav-text">>或\b：词尾锚定，用于单词模式的右侧，格式为PATTERN>, PATTERN\b</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#：单词锚定"><span class="nav-number">4.2.3.5.</span> <span class="nav-text">\：单词锚定</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（4）分组与引用"><span class="nav-number">4.2.4.</span> <span class="nav-text">（4）分组与引用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b、扩展正则表达式meta字符"><span class="nav-number">4.2.5.</span> <span class="nav-text">b、扩展正则表达式meta字符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#此处表示过滤1-255的所有整数"><span class="nav-number">4.2.6.</span> <span class="nav-text">此处表示过滤1-255的所有整数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#此处表示取出绝对路径中的基名"><span class="nav-number">4.2.7.</span> <span class="nav-text">此处表示取出绝对路径中的基名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#此处表示查看root、mageedu、centos用户的详细信息"><span class="nav-number">4.2.8.</span> <span class="nav-text">此处表示查看root、mageedu、centos用户的详细信息</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Antony</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zantony"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

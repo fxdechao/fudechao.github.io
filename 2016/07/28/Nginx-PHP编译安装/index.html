@@ -1,0 +1,953 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Nginx,php,nginx+php," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="编译安装Nginx&amp;amp;PHPnginx编译安装下载路径：(建议使用Tengine)http://nginx.org/http://tengine.taobao.org/
+启动命令 /usr/local/nginx/sbin/nginx重载nginx /usr/local/nginx/sbin/nginx -s reload
+一、安装环境123456789101112sudo yum grou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx+PHP编译安装">
+<meta property="og:url" content="http://yoursite.com/2016/07/28/Nginx-PHP编译安装/index.html">
+<meta property="og:site_name" content="Antony's Blog">
+<meta property="og:description" content="编译安装Nginx&amp;amp;PHPnginx编译安装下载路径：(建议使用Tengine)http://nginx.org/http://tengine.taobao.org/
+启动命令 /usr/local/nginx/sbin/nginx重载nginx /usr/local/nginx/sbin/nginx -s reload
+一、安装环境123456789101112sudo yum grou">
+<meta property="og:updated_time" content="2016-07-29T02:51:36.095Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx+PHP编译安装">
+<meta name="twitter:description" content="编译安装Nginx&amp;amp;PHPnginx编译安装下载路径：(建议使用Tengine)http://nginx.org/http://tengine.taobao.org/
+启动命令 /usr/local/nginx/sbin/nginx重载nginx /usr/local/nginx/sbin/nginx -s reload
+一、安装环境123456789101112sudo yum grou">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/07/28/Nginx-PHP编译安装/"/>
+
+  <title> Nginx+PHP编译安装 | Antony's Blog </title>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery-lazyload/1.9.5/jquery.lazyload.min.js"></script>
+    <script type="text/javascript">
+      jQuery(function() {          
+          jQuery("img").lazyload({
+            placeholder:"http://www.arao.me/loading.gif",
+              effect:"fadeIn"
+            });
+          });
+    </script>
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?cb574d5553440fc996fc98610ee2a9bd";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Antony's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-categories " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Nginx+PHP编译安装
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-28T14:50:00+08:00" content="2016-07-28">
+              2016-07-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Web-Service/" itemprop="url" rel="index">
+                    <span itemprop="name">Web Service</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/28/Nginx-PHP编译安装/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/Nginx-PHP编译安装/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="编译安装Nginx-amp-PHP"><a href="#编译安装Nginx-amp-PHP" class="headerlink" title="编译安装Nginx&amp;PHP"></a>编译安装Nginx&amp;PHP</h3><h4 id="nginx编译安装"><a href="#nginx编译安装" class="headerlink" title="nginx编译安装"></a><strong>nginx编译安装</strong></h4><p><strong>下载路径</strong>：(建议使用<code>Tengine</code>)<br><a href="http://nginx.org/" target="_blank" rel="external">http://nginx.org/</a><br><a href="http://tengine.taobao.org/" target="_blank" rel="external">http://tengine.taobao.org/</a></p>
+<p><strong>启动命令</strong> /usr/local/nginx/sbin/nginx<br><strong>重载nginx</strong> /usr/local/nginx/sbin/nginx -s reload</p>
+<h5 id="一、安装环境"><a href="#一、安装环境" class="headerlink" title="一、安装环境"></a>一、安装环境</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">sudo yum groupinstall &quot;Development Tools&quot; -y</div><div class="line">sudo yum install jemalloc-devel openssl-devel pcre-devel -y</div><div class="line"></div><div class="line">nginx编译参数(红色部分可能不支持,可去掉)</div><div class="line"># sudo ./configure --prefix=/usr/local/nginx --user=webapps --group=webapps --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-pcre --with-jemalloc</div><div class="line"># sudo make</div><div class="line"># sudo make install</div><div class="line"># cd /usr/local/nginx</div><div class="line"># sudo mv logs /export/</div><div class="line"># sudo ln -s /export/logs logs</div><div class="line"># cd /usr/local/nginx/conf</div><div class="line"># sudo mkdir vhosts</div></pre></td></tr></table></figure>
+<h4 id="二、修改conf文件"><a href="#二、修改conf文件" class="headerlink" title="二、修改conf文件"></a>二、修改conf文件</h4><p><strong>1. 修改主nginx.conf</strong><br>1-1. 开启log_format<br>1-2. 在http上下文结尾增加 include vhosts/*;<br>1-3. 需要注意nginx配置文件是按顺序读取<br>1-5.修改nginx worker用户为webapps<br>1-6.修改/etc/security/limits.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"># vim /usr/local/nginx/conf/nginx.conf</div><div class="line">user  webapps;</div><div class="line">worker_processes  2;</div><div class="line">#error_log  logs/error.log;</div><div class="line">#error_log  logs/error.log  notice;</div><div class="line">#error_log  logs/error.log  info;</div><div class="line">#pid        logs/nginx.pid;</div><div class="line">worker_rlimit_nofile 655350;</div><div class="line">events &#123;</div><div class="line">    use epoll;</div><div class="line">    worker_connections  1024;</div><div class="line">&#125;</div><div class="line"># load modules compiled as Dynamic Shared Object (DSO)</div><div class="line">#</div><div class="line">#dso &#123;</div><div class="line">#    load ngx_http_fastcgi_module.so;</div><div class="line">#    load ngx_http_rewrite_module.so;</div><div class="line">#&#125;</div><div class="line">http &#123;</div><div class="line">    include       mime.types;</div><div class="line">    default_type  application/octet-stream;</div><div class="line">    sendfile        on;</div><div class="line">    keepalive_timeout  65;</div><div class="line">    server &#123;</div><div class="line">        listen       80;</div><div class="line">        server_name  localhost;</div><div class="line">        error_page   500 502 503 504  /50x.html;</div><div class="line">        location = /50x.html &#123;</div><div class="line">            root   html;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">include vhosts/*;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>2. 修改自定义配置文件</strong></p>
+<h5 id="修改配置文件-usr-local-nginx-conf-vhosts-host-conf"><a href="#修改配置文件-usr-local-nginx-conf-vhosts-host-conf" class="headerlink" title="修改配置文件/usr/local/nginx/conf/vhosts/host.conf"></a><strong>修改配置文件<code>/usr/local/nginx/conf/vhosts/host.conf</code></strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">        listen       80;</div><div class="line">        server_name  www.fraudect.com;</div><div class="line">        #charset koi8-r;</div><div class="line">	access_log  logs/www.fraudect.com.access.log;</div><div class="line">        error_log       logs/www.fraudect.com.error.log;</div><div class="line">	location / &#123;</div><div class="line">            root        /export/webapps/www.fraudect.com;</div><div class="line">	    index	index.php;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	location ~ .*\.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css)$ &#123; </div><div class="line">            	root        /export/webapps/www.fraudect.com;</div><div class="line">    		expires      3d; </div><div class="line">    	&#125; </div><div class="line">	location ~ \.php$ &#123;</div><div class="line">                fastcgi_pass     127.0.0.1:9000;</div><div class="line">                fastcgi_index    index.php;</div><div class="line">		fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</div><div class="line">                include          fastcgi_params;</div><div class="line">                fastcgi_connect_timeout    300;</div><div class="line">                fastcgi_send_timeout       300;</div><div class="line">                fastcgi_read_timeout       300;</div><div class="line">		fastcgi_buffers 8 256k;                                               </div><div class="line">      		fastcgi_buffer_size 256k;                                             </div><div class="line">      		fastcgi_busy_buffers_size 256k; </div><div class="line">		fastcgi_intercept_errors on;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="若跳转php用此部分"><a href="#若跳转php用此部分" class="headerlink" title="若跳转php用此部分"></a><strong>若跳转<code>php</code>用此部分</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">location ~ \.php$ &#123;</div><div class="line">               fastcgi_pass     127.0.0.1:9000;</div><div class="line">               fastcgi_index    index.php;</div><div class="line">			fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;</div><div class="line">               include          fastcgi_params;</div><div class="line">               fastcgi_connect_timeout    300;</div><div class="line">               fastcgi_send_timeout       300;</div><div class="line">               fastcgi_read_timeout       300;</div><div class="line">			fastcgi_buffers 8 256k;                                               </div><div class="line">      		fastcgi_buffer_size 256k;                                             </div><div class="line">      		fastcgi_busy_buffers_size 256k; </div><div class="line">			fastcgi_intercept_errors on;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<h4 id="若跳转java走此部分"><a href="#若跳转java走此部分" class="headerlink" title="若跳转java走此部分"></a><strong>若跳转<code>java</code>走此部分</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">location / &#123;</div><div class="line">	proxy_pass http://10.100.10.20:8080;</div><div class="line"></div><div class="line">#	proxy_pass http://axis.prd.pzoom.com;</div><div class="line"></div><div class="line">	proxy_max_temp_file_size 0;</div><div class="line">	proxy_set_header   Host             $host;        </div><div class="line">	proxy_set_header   X-Real-IP        $remote_addr;</div><div class="line">    proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;</div><div class="line">    proxy_buffers 256 4k;</div><div class="line">    proxy_connect_timeout 600;</div><div class="line">    proxy_read_timeout 600;</div><div class="line">    proxy_cache_valid 200 302 10m;</div><div class="line">    proxy_cache_valid 301 1h;</div><div class="line">    proxy_cache_valid any 1m;</div><div class="line">	proxy_intercept_errors on;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="upstream-conf-文件"><a href="#upstream-conf-文件" class="headerlink" title="upstream.conf 文件"></a><strong><code>upstream.conf</code> 文件</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream fcgi &#123;</div><div class="line">#upstream的负载均衡，weight是权重，可以根据机器配置定义权重。weigth参数表示权值，权值越高被分配到的几率越大。</div><div class="line">server 192.168.80.121:80 weight=3;</div><div class="line">server 192.168.80.122:80 weight=2;</div><div class="line">server 192.168.80.123:80 weight=3;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="usr-local-nginx-conf-fastcgi-params-文件"><a href="#usr-local-nginx-conf-fastcgi-params-文件" class="headerlink" title="/usr/local/nginx/conf/fastcgi_params 文件"></a><strong><code>/usr/local/nginx/conf/fastcgi_params</code> 文件</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">fastcgi_param  GATEWAY_INTERFACE  CGI/1.1;</div><div class="line">fastcgi_param  SERVER_SOFTWARE    nginx;</div><div class="line">fastcgi_param  QUERY_STRING       $query_string;</div><div class="line">fastcgi_param  REQUEST_METHOD     $request_method;</div><div class="line">fastcgi_param  CONTENT_TYPE       $content_type;</div><div class="line">fastcgi_param  CONTENT_LENGTH     $content_length;</div><div class="line">fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;</div><div class="line">fastcgi_param  SCRIPT_NAME        $fastcgi_script_name;</div><div class="line">fastcgi_param  REQUEST_URI        $request_uri;</div><div class="line">fastcgi_param  DOCUMENT_URI       $document_uri;</div><div class="line">fastcgi_param  DOCUMENT_ROOT      $document_root;</div><div class="line">fastcgi_param  SERVER_PROTOCOL    $server_protocol;</div><div class="line">fastcgi_param  REMOTE_ADDR        $remote_addr;</div><div class="line">fastcgi_param  REMOTE_PORT        $remote_port;</div><div class="line">fastcgi_param  SERVER_ADDR        $server_addr;</div><div class="line">fastcgi_param  SERVER_PORT        $server_port;</div><div class="line">fastcgi_param  SERVER_NAME        $server_name;</div></pre></td></tr></table></figure>
+<p><strong>补充内容</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">####### 这个是一个thinkphp框架的伪静态规则，请忽略</div><div class="line">if (!-e $request_filename) &#123;</div><div class="line">rewrite  ^(.*)$  /index.php last;</div><div class="line">break;</div></pre></td></tr></table></figure>
+<p>###<strong>php构建部分</strong><br><code>centos  6.X</code>  <code>php-fpm方式</code></p>
+<h4 id="一、依赖关系安装"><a href="#一、依赖关系安装" class="headerlink" title="一、依赖关系安装"></a><strong>一、依赖关系安装</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># sudo yum install libmcrypt-devel ncurses-devel recode-devel aspell-devel curl-devel readline-devel openldap-devel enchant-devel pcre-devel net-snmp-devel libicu-devel libtool-ltdl-devel libjpeg-devel libpng-devel libxml2-devel bzip2-devel freetype-devel gcc-c++</div><div class="line"># sudo cp -p /usr/lib64/libldap* /usr/lib</div><div class="line"># sudo yum install mysql-devel</div><div class="line"># sudo ln -s /usr/lib64/mysql /usr/lib/mysql</div></pre></td></tr></table></figure>
+<p><strong>php编译参数(如果make报ld之类的错误，尝试移除ldap和lntl编译模块)</strong><br><strong>下载链接地址</strong>：<a href="http://docs.php.net/distributions/php-5.6.24.tar.bz2" target="_blank" rel="external">http://docs.php.net/distributions/php-5.6.24.tar.bz2</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># sudo tar xf php-5.6.24.tar.bz2</div><div class="line"># sudo ./configure --prefix=/usr/local/php  --with-config-file-path=/usr/local/php/etc --with-config-file-scan-dir=/usr/local/php/etc/php.d --with-curl --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-openssl --enable-mbstring --with-freetype-dir --with-jpeg-dir --with-png-dir  --with-gd --with-libxml-dir --with-zlib --with-mcrypt --with-bz2 --enable-sysvshm --enable-sysvsem --enable-soap --with-recode --with-snmp --with-readline  --enable-intl --enable-dba --enable-bcmath --with-enchant --with-pspell --enable-xml --enable-sockets  --enable-exif --enable-inline-optimization --enable-fpm</div></pre></td></tr></table></figure></p>
+<h4 id="apache专用"><a href="#apache专用" class="headerlink" title="apache专用"></a>apache专用</h4><p><code>--with-apxs2=/usr/sbin/apxs</code></p>
+<h4 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get -y install  libpspell-dev build-essential libcurl3-openssl-dev libbz2-dev libenchant-dev libxml2-dev libjpeg-dev libpng-dev libfreetype6-dev libicu-dev libmcrypt-dev libncurses5-dev  librecode-dev libaspell-dev libreadline-dev</div></pre></td></tr></table></figure>
+<h5 id="若apache添加参数-–with-apxs2-usr-sbin-apxs-apxs是apache的httpd-devel安装后生成的，yum安装后路径一般是-usr-sbin-apxs，如果是编译安装，一般位于apache的bin目录下"><a href="#若apache添加参数-–with-apxs2-usr-sbin-apxs-apxs是apache的httpd-devel安装后生成的，yum安装后路径一般是-usr-sbin-apxs，如果是编译安装，一般位于apache的bin目录下" class="headerlink" title="若apache添加参数   –with-apxs2=/usr/sbin/apxs  apxs是apache的httpd-devel安装后生成的，yum安装后路径一般是/usr/sbin/apxs，如果是编译安装，一般位于apache的bin目录下"></a>若apache添加参数   –with-apxs2=/usr/sbin/apxs  apxs是apache的httpd-devel安装后生成的，yum安装后路径一般是/usr/sbin/apxs，如果是编译安装，一般位于apache的bin目录下</h5><h4 id="php-fpm启动脚本"><a href="#php-fpm启动脚本" class="headerlink" title="php-fpm启动脚本"></a><strong>php-fpm启动脚本</strong></h4><p><strong><code>php源码包根目录</code></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># sudo cp sapi/fpm/init.d.php-fpm /etc/rc.d/init.d/php-fpm</div><div class="line"># sudo chkconfig --add php-fpm</div><div class="line"># sudo chkconfig php-fpm on</div><div class="line"># sudo chmod u+x /etc/rc.d/init.d/php-fpm</div><div class="line"># sudo cp php.ini-production /usr/local/php/etc/php.ini</div><div class="line"></div><div class="line"># sudo cd /usr/local/php/var</div><div class="line"># sudo rm -rf log</div><div class="line"># sudo ln -s /export/logs log</div></pre></td></tr></table></figure></p>
+<h4 id="修改启动脚本"><a href="#修改启动脚本" class="headerlink" title="修改启动脚本"></a><strong>修改启动脚本</strong></h4><p>脚本前几行注释结束后的首行部位加入<code>[ -f /etc/rc.d/init.d/functions ] &amp;&amp; . /etc/rc.d/init.d/functions</code></p>
+<p>在start函数的首行加入daemon<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">case $1 in </div><div class="line">    start)</div><div class="line">    	$php_fpm_BIN --daemonize $php_opts</div></pre></td></tr></table></figure></p>
+<p><strong>*修改php.ini 这一步骤需要根据开发来决定开启额外模块或者参数</strong></p>
+<h4 id="修改php-fpm-ini-gt-相当于apache的配置文件"><a href="#修改php-fpm-ini-gt-相当于apache的配置文件" class="headerlink" title="修改php-fpm.ini    ==&gt;相当于apache的配置文件"></a><strong>修改<code>php-fpm.ini</code>    ==&gt;相当于apache的配置文件</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#vi /usr/local/php/etc/php-fpm.conf</div><div class="line">[global]</div><div class="line">log_level = notice</div><div class="line">daemonize = yes</div><div class="line">events.mechanism = epoll</div><div class="line">rlimit_files = 10240</div><div class="line">emergency_restart_threshold = 60</div><div class="line">emergency_restart_interval = 60s</div><div class="line">[fcgi]</div><div class="line">user = webapps</div><div class="line">group = webapps</div><div class="line">listen = 0.0.0.0:9000</div><div class="line">pm = static</div><div class="line">pm.max_children = 200</div><div class="line">pm.max_requests = 1024</div></pre></td></tr></table></figure>
+<blockquote>
+<p>作者：Antony WX&amp;QQ：1257465991<br>Q/A：如有问题请慷慨提出</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat.png" alt="Antony WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/zhifubao.jpg" alt="Antony Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx-php-nginx-php/" rel="tag">#Nginx,php,nginx+php</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/27/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/28/老马日记-oneday/" rel="prev" title="马不羁-oneday">
+                马不羁-oneday <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/28/Nginx-PHP编译安装/"
+           data-title="Nginx+PHP编译安装" data-url="http://yoursite.com/2016/07/28/Nginx-PHP编译安装/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Antony" />
+          <p class="site-author-name" itemprop="name">Antony</p>
+          <p class="site-description motion-element" itemprop="description">If I have been able to see further, it was only because I stood on the shoulders of giants. </p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ZAntony/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/zhao-liang-86-49" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://xinzong.blog.51cto.com/" target="_blank" title="51cto">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  51cto
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5040142622" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://xinzong.blog.51cto.com/" title="巨人" target="_blank">巨人</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译安装Nginx-amp-PHP"><span class="nav-number">1.</span> <span class="nav-text">编译安装Nginx&PHP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx编译安装"><span class="nav-number">1.1.</span> <span class="nav-text">nginx编译安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一、安装环境"><span class="nav-number">1.1.1.</span> <span class="nav-text">一、安装环境</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、修改conf文件"><span class="nav-number">1.2.</span> <span class="nav-text">二、修改conf文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#修改配置文件-usr-local-nginx-conf-vhosts-host-conf"><span class="nav-number">1.2.1.</span> <span class="nav-text">修改配置文件/usr/local/nginx/conf/vhosts/host.conf</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#若跳转php用此部分"><span class="nav-number">1.3.</span> <span class="nav-text">若跳转php用此部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#若跳转java走此部分"><span class="nav-number">1.4.</span> <span class="nav-text">若跳转java走此部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#upstream-conf-文件"><span class="nav-number">1.5.</span> <span class="nav-text">upstream.conf 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#usr-local-nginx-conf-fastcgi-params-文件"><span class="nav-number">1.6.</span> <span class="nav-text">/usr/local/nginx/conf/fastcgi_params 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一、依赖关系安装"><span class="nav-number">1.7.</span> <span class="nav-text">一、依赖关系安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apache专用"><span class="nav-number">1.8.</span> <span class="nav-text">apache专用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ubuntu"><span class="nav-number">1.9.</span> <span class="nav-text">ubuntu</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#若apache添加参数-–with-apxs2-usr-sbin-apxs-apxs是apache的httpd-devel安装后生成的，yum安装后路径一般是-usr-sbin-apxs，如果是编译安装，一般位于apache的bin目录下"><span class="nav-number">1.9.1.</span> <span class="nav-text">若apache添加参数   –with-apxs2=/usr/sbin/apxs  apxs是apache的httpd-devel安装后生成的，yum安装后路径一般是/usr/sbin/apxs，如果是编译安装，一般位于apache的bin目录下</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#php-fpm启动脚本"><span class="nav-number">1.10.</span> <span class="nav-text">php-fpm启动脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改启动脚本"><span class="nav-number">1.11.</span> <span class="nav-text">修改启动脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改php-fpm-ini-gt-相当于apache的配置文件"><span class="nav-number">1.12.</span> <span class="nav-text">修改php-fpm.ini    ==>相当于apache的配置文件</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Antony</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zantony"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

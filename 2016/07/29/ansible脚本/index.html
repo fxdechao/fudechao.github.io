@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="ansible," />
 
 
 
@@ -84,15 +84,22 @@
 
 
 
-<meta name="description" content="If I have been able to see further, it was only because I stood on the shoulders of giants.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Antony's Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="这是一个可以自动在多台server批量安装及拷贝配置文件启动服务器的ansible脚本，本人学疏才浅，目前还有很多待完善，希望各位多多指教。
+
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ansible脚本">
+<meta property="og:url" content="http://yoursite.com/2016/07/29/ansible脚本/index.html">
 <meta property="og:site_name" content="Antony's Blog">
-<meta property="og:description" content="If I have been able to see further, it was only because I stood on the shoulders of giants.">
+<meta property="og:description" content="这是一个可以自动在多台server批量安装及拷贝配置文件启动服务器的ansible脚本，本人学疏才浅，目前还有很多待完善，希望各位多多指教。
+
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
+<meta property="og:updated_time" content="2016-07-29T02:51:32.939Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Antony's Blog">
-<meta name="twitter:description" content="If I have been able to see further, it was only because I stood on the shoulders of giants.">
+<meta name="twitter:title" content="ansible脚本">
+<meta name="twitter:description" content="这是一个可以自动在多台server批量安装及拷贝配置文件启动服务器的ansible脚本，本人学疏才浅，目前还有很多待完善，希望各位多多指教。
+
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768">
 
 
 
@@ -113,9 +120,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/07/29/ansible脚本/"/>
 
-  <title> Antony's Blog </title>
+  <title> ansible脚本 | Antony's Blog </title>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery-lazyload/1.9.5/jquery.lazyload.min.js"></script>
     <script type="text/javascript">
       jQuery(function() {          
@@ -157,9 +164,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -289,9 +294,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -311,10 +316,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/07/29/ansible脚本/" itemprop="url">
-                  ansible脚本
-                </a>
+                ansible脚本
               
             
           </h1>
@@ -380,661 +382,111 @@
       
 
       
-        
-          
-          
-这是一个可以自动在多台server批量安装及拷贝配置文件启动服务器的ansible脚本，本人学疏才浅，目前还有很多待完善，希望各位多多指教。
+        <blockquote>
+<p>这是一个可以自动在多台server批量安装及拷贝配置文件启动服务器的ansible脚本，本人学疏才浅，目前还有很多待完善，希望各位多多指教。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"># Author: Altamob </div><div class="line"># Directory tree</div><div class="line"># 	/opt/			</div><div class="line"># 	├── ansible.sh	# like this,nginx.conf is varia $FILE</div><div class="line"># 	└── nginx.conf</div><div class="line"></div><div class="line"># Host IP One</div><div class="line">HOST=172.18.4.62</div><div class="line"># Host IP two</div><div class="line">HOST1=</div><div class="line"># conf file template</div><div class="line">FILE=nginx.conf</div><div class="line"></div><div class="line">cat &lt;&lt; EOF</div><div class="line">+---------------------------------------+</div><div class="line">|   this is a ansible script           |</div><div class="line">|      from Altamob.......          |</div><div class="line">+---------------------------------------</div><div class="line">EOF</div><div class="line"></div><div class="line">read -p &quot;pelease input your service name: &quot; SER</div><div class="line">read -p &quot;pelease input your hostgroup name: &quot; HOSTGROUP</div><div class="line"></div><div class="line"></div><div class="line">mkdir /etc/ansible/roles/$&#123;SER&#125;/&#123;tasks,templates,vars,handlers&#125; -pv &amp;&gt;/dev/null</div><div class="line"></div><div class="line">cp $FILE /etc/ansible/roles/$&#123;SER&#125;/templates/$&#123;FILE&#125;.j2 &amp;&gt;/dev/null</div><div class="line">cat &gt;&gt; /etc/ansible/hosts &lt;&lt; EOF</div><div class="line">[$HOSTGROUP]</div><div class="line">$HOST</div><div class="line">$HOST1</div><div class="line">EOF</div><div class="line">cat &gt; /etc/ansible/roles/$SER/tasks/main.yml &lt;&lt; EOF</div><div class="line">- name: install $SER</div><div class="line">  yum: name=$SER state=present</div><div class="line">- name: copy conf file</div><div class="line">  template: src=$&#123;FILE&#125;.j2 dest=/etc/$&#123;SER&#125;/$&#123;FILE&#125;</div><div class="line">  notify: restart</div><div class="line">  tags: conf</div><div class="line">- name: start service</div><div class="line">  service: name=nginx state=started </div><div class="line">EOF</div><div class="line">#cat &gt; /etc/ansible/roles/$SER/tasks/main.yml &lt;&lt; EOF</div><div class="line">#- name: install $SER</div><div class="line">#  yum: name=$SER state=present</div><div class="line">#- name: copy conf file</div><div class="line">#  template: src=$&#123;FILE&#125;.j2 dest=/etc/$&#123;SER&#125;/$&#123;FILE&#125;</div><div class="line">#  notify: restart</div><div class="line">#  tags: conf</div><div class="line">#- name: start service</div><div class="line">#  service: name=nginx state=started </div><div class="line">#EOF</div><div class="line">cat &gt; /etc/ansible/roles/$&#123;SER&#125;/handlers/main.yml &lt;&lt;EOF</div><div class="line">- name: restart</div><div class="line">  service: name=$&#123;SER&#125; state=restarted</div><div class="line">EOF</div><div class="line"></div><div class="line">cat &gt;&gt; /etc/ansible/ansible.cfg &lt;&lt;EOF</div><div class="line">host_key_checking = False</div><div class="line">EOF</div><div class="line">cat &gt;&gt; /opt/$&#123;SER&#125;.yaml &lt;&lt;EOF</div><div class="line">- hosts: $&#123;HOSTGROUP&#125;</div><div class="line">  remote_user: root</div><div class="line">  roles:</div><div class="line">  - $&#123;SER&#125;</div><div class="line">EOF</div><div class="line"></div><div class="line">cd /opt/;ansible-playbook $&#123;SER&#125;.yaml</div></pre></td></tr></table></figure>
+<blockquote>
+<p>作者：<code>Antony</code> WX&amp;QQ：<code>1257465991</code><br>Q/A：如有问题请慷慨提出</p>
+</blockquote>
 
-12345678910111213141516171819202122232425262728293031323334353637383940414243
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/29/ansible脚本/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat.png" alt="Antony WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/zhifubao.jpg" alt="Antony Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-categories " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/28/Linux用户、用户组及权限管理/" itemprop="url">
-                  Linux用户、用户组及权限管理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-28T17:49:44+08:00" content="2016-07-28">
-              2016-07-28
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-Basic/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux Basic</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/28/Linux用户、用户组及权限管理/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/Linux用户、用户组及权限管理/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/ansible/" rel="tag">#ansible</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          一、Linux用户及用户组的基本概念用户：用户是实现能够将有限的资源在多个使用者之间进行分配；、用户组：用户组是指多个用户的集合，方便对一类需要同样权限的用户授权Linux是多用户、多任务的操作系统。    多用户指：多人同时使用系统资源；多任务：同时运行多个进程
-二、用户及用户组类别1、用户：名称
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/28/Linux用户、用户组及权限管理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/28/Linux用户、用户组及权限管理/" rel="next" title="Linux用户、用户组及权限管理">
+                <i class="fa fa-chevron-left"></i> Linux用户、用户组及权限管理
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-categories " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/28/Linux三剑客之grep/" itemprop="url">
-                  Linux三剑客之grep
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-28T17:11:27+08:00" content="2016-07-28">
-              2016-07-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux三剑客/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux三剑客</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/28/Linux三剑客之grep/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/Linux三剑客之grep/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          一、Linux文本处理三剑客
-Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep）、sed、awk。今天主要给大家介绍一下三剑客中的第一剑：grep伐木累。
-二、grep是什么？grep 全称（Globally search a Regular Expression an
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/28/Linux三剑客之grep/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
+
+    <div class="post-spread">
       
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-categories " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/28/老马日记-oneday/" itemprop="url">
-                  马不羁-oneday
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-28T14:58:25+08:00" content="2016-07-28">
-              2016-07-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/马不羁/" itemprop="url" rel="index">
-                    <span itemprop="name">马不羁</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/28/老马日记-oneday/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/老马日记-oneday/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          马不羁日记
-大家好我是老马，今天开始我在这里写日记了，希望大家多多捧场，并且谢谢博主的支持！QQ：1457220562
-
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/28/老马日记-oneday/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-categories " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/28/Nginx-PHP编译安装/" itemprop="url">
-                  Nginx+PHP编译安装
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-28T14:50:00+08:00" content="2016-07-28">
-              2016-07-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Web-Service/" itemprop="url" rel="index">
-                    <span itemprop="name">Web Service</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/28/Nginx-PHP编译安装/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/28/Nginx-PHP编译安装/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          编译安装Nginx&amp;PHPnginx编译安装下载路径：(建议使用Tengine)http://nginx.org/http://tengine.taobao.org/
-启动命令 /usr/local/nginx/sbin/nginx重载nginx /usr/local/nginx/sbin/
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/28/Nginx-PHP编译安装/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/27/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-27T15:47:10+08:00" content="2016-07-27">
-              2016-07-27
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/27/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/27/hello-world/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/27/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -1042,6 +494,14 @@ Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep�
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/29/ansible脚本/"
+           data-title="ansible脚本" data-url="http://yoursite.com/2016/07/29/ansible脚本/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -1061,8 +521,17 @@ Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep�
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -1164,6 +633,17 @@ Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep�
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -1267,6 +747,10 @@ Linux上有三种常用的文本处理工具，分别为：grep（egrep、fgrep�
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
